@@ -115,3 +115,25 @@ def emulate_cycle():
     draw_flag = 0
     sound_flag = 0
     op = memory[pc] << 8 | memory[pc + 1]
+    
+    match op & 0xF000:
+        
+        case 0x00000:
+            match op & 0x00FF:
+                #00E0: Clears the screen
+                case 0x00E0:
+                    debug_print("[OK] 0x%X: 00E0\n", op)
+                    for i in range(64 * 32):
+                        display[i] = 0
+                    pc += 2
+
+                case 0x00EE:
+                    debug_print("[OK] 0x%X: 00EE\n", op)
+                    pc = stack[sp]
+                    sp -=1
+                    pc +=2
+                
+                case _:
+                    debug_print("[FAILED] Unknown opcode: 0x%X\n", op)
+
+        
