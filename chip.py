@@ -136,4 +136,13 @@ def emulate_cycle():
                 case _:
                     debug_print("[FAILED] Unknown opcode: 0x%X\n", op)
 
+        #1NNN Jumps to address NNN
+        case 0x1000:
+            debug_print("[OK] 0x%X: 1NNN\n", op)
+            pc = op & 0x0FFF
         
+        case 0x2000:
+             debug_print("[OK] 0x%X: 2NNN\n", op)
+             sp +=1
+             stack[sp] = pc
+             pc = op & 0x0FFF
